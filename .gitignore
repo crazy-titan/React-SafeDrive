@@ -41,3 +41,19 @@ app-example
 # generated native folders
 /ios
 /android
+
+# local environment files
+.env
+.env.*
+.env*.local
+
+# IDEs and editors
+.vscode/
+.idea/
+
+# Agent caches and logs
+.claude/
+.gemini/
+*.log
+temp/
+tmp/

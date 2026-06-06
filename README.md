@@ -35,9 +35,17 @@ To facilitate testing on simulators and web browsers where physical sensors are 
 
 ## Screenshots
 
-*Application screens running on the mobile Expo Go client:*
+### Dashboard Screens
 
-[Placeholders for mobile screenshots will be added here]
+| Initial State | Simulation Configuration | History Log |
+| :---: | :---: | :---: |
+| <img src="assets/images/dashboard_empty.png" width="230"> | <img src="assets/images/dashboard_sim_menu.png" width="230"> | <img src="assets/images/dashboard_history.png" width="230"> |
+
+### Active HUD & Analysis Summary
+
+| Active Telemetry HUD | Session Summary Analysis |
+| :---: | :---: |
+| <img src="assets/images/drive_active_hud.png" width="260"> | <img src="assets/images/drive_analysis_summary.png" width="260"> |
 
 ---
 

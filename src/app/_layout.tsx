@@ -1,16 +1,50 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import React from 'react';
-import { useColorScheme } from 'react-native';
+import { Stack } from "expo-router";
+import { StatusBar } from "expo-status-bar";
+import { View } from "react-native";
 
-import { AnimatedSplashOverlay } from '@/components/animated-icon';
-import AppTabs from '@/components/app-tabs';
-
-export default function TabLayout() {
-  const colorScheme = useColorScheme();
+export default function RootLayout() {
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <AnimatedSplashOverlay />
-      <AppTabs />
-    </ThemeProvider>
+    <View style={{ flex: 1, backgroundColor: "#0B0F19" }}>
+      <StatusBar style="light" />
+      <Stack
+        screenOptions={{
+          headerStyle: {
+            backgroundColor: "#0B0F19",
+          },
+          headerTintColor: "#F3F4F6",
+          headerTitleStyle: {
+            fontWeight: "800",
+            fontSize: 18,
+          },
+          headerShadowVisible: false,
+          contentStyle: {
+            backgroundColor: "#0B0F19",
+          },
+        }}
+      >
+        <Stack.Screen
+          name="index"
+          options={{
+            title: "SafeDrive HUD",
+          }}
+        />
+        <Stack.Screen
+          name="drive"
+          options={{
+            headerShown: false,
+            gestureEnabled: false,
+          }}
+        />
+        <Stack.Screen
+          name="summary"
+          options={{
+            title: "Drive Analysis",
+            headerLeft: () => null,
+            gestureEnabled: false,
+          }}
+        />
+      </Stack>
+    </View>
   );
 }
+

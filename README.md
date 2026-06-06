@@ -1,56 +1,68 @@
-# Welcome to your Expo app 👋
+# SafeDrive HUD
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+SafeDrive HUD is a mobile application built using Expo (SDK 55) and React Native that leverages device sensors to analyze driving behaviors in real-time. The application detects high-risk actions such as harsh braking, sudden acceleration, sharp cornering, aggressive steering, device instability, and phone handling. It calculates a safety score out of 100 and provides visual and audio feedback, historical tracking, and an interactive route replay heatmap.
 
-## Get started
+To facilitate testing on simulators and web browsers where physical sensors are unavailable, the application features an integrated kinematic vehicle simulator with preconfigured route profiles and manual event injection capabilities.
 
-1. Install dependencies
+---
 
+## Features
+
+- **Real-Time Sensor Processing**: Filters noise and extracts linear acceleration vectors from device accelerometer, gyroscope, and motion APIs.
+- **Drive HUD Telemetry**: Displays real-time speed, elapsed drive duration, alert warnings, a visual G-force bullseye bubble, and a rolling G-force telemetry chart.
+- **Safety Score Calculator**: Commences at 100 points, applying weighted deductions per unsafe event.
+- **Interactive Route Replay**:normalized vector map illustrating the driving route, colored dynamically by telemetry safety levels, showing pinpointed event markers.
+- **AI-Style Driving Coach**: Aggregates telemetry stats at the end of a drive, outputting safe driving verdicts, strengths, and recommendations.
+- **Drive Simulation Mode**: Streams mock telemetry simulating safe driving, aggressive driving, or distracted driving, plus custom HUD mode with manual event injection buttons.
+- **Persistent Local History**: Saves drive logs to AsyncStorage, sorting by date descending, with individual record deletions or complete database resets.
+
+---
+
+## Event Detection Thresholds
+
+| Event | Primary Sensor | Trigger Threshold | Score Deduction | Description |
+| :--- | :--- | :--- | :--- | :--- |
+| Harsh Acceleration | Accelerometer (Y-Axis) | >= 2.8 m/s^2 (0.28G) for 500ms | -5 points | Abrupt forward acceleration. |
+| Harsh Braking | Accelerometer (Y-Axis) | <= -3.2 m/s^2 (-0.32G) for 500ms | -5 points | Sudden backward deceleration. |
+| Sharp Turn | Gyroscope (Z-Axis) + Accel (X-Axis) | >= 0.65 rad/s yaw rate AND >= 3.0 m/s^2 lateral force | -3 points | High-speed lateral cornering. |
+| Aggressive Steering | Accelerometer (X-Axis Jerk) | >= 6.5 m/s^3 lateral derivative | -4 points | Sudden lane changes or weaving. |
+| Excessive Movement | Accelerometer (Variance) | >= 2.2 variance on linear magnitude | -2 points | Device shaking or sliding. |
+| Phone Handling | Gyroscope (XY Magnitude) | >= 1.2 rad/s roll/pitch rate | -10 points | Device tilt indicating pickup. |
+
+*Note: A 3-second cooldown is enforced per event type to prevent double-triggering for single maneuvers.*
+
+---
+
+## Screenshots
+
+*Application screens running on the mobile Expo Go client:*
+
+[Placeholders for mobile screenshots will be added here]
+
+---
+
+## Getting Started
+
+### Prerequisites
+
+You need Node.js and Bun (or npm) installed on your development machine.
+
+### Installation
+
+1. Clone the repository:
    ```bash
-   npm install
+   git clone git@github.com:crazy-titan/React-SafeDrive.git
+   cd React-SafeDrive
    ```
 
-2. Start the app
+2. Install dependencies:
+   ```bash
+   bun install
+   ```
 
+3. Start the Expo development server:
    ```bash
    npx expo start
    ```
 
-In the output, you'll find options to open the app in a
-
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
-
-```bash
-npm run reset-project
-```
-
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
-
-### Other setup steps
-
-- To set up ESLint for linting, run `npx expo lint`, or follow our guide on ["Using ESLint and Prettier"](https://docs.expo.dev/guides/using-eslint/)
-- If you'd like to set up unit testing, follow our guide on ["Unit Testing with Jest"](https://docs.expo.dev/develop/unit-testing/)
-- Learn more about the TypeScript setup in this template in our guide on ["Using TypeScript"](https://docs.expo.dev/guides/typescript/)
-
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+Use the Expo Go application on an Android or iOS device to scan the generated QR code and test the application, or press `w` to run on a web browser.

@@ -43,9 +43,9 @@ To facilitate testing on simulators and web browsers where physical sensors are 
 
 ### Active HUD & Analysis Summary
 
-| Active Telemetry HUD | Session Summary Analysis |
-| :---: | :---: |
-| <img src="assets/images/drive_active_hud.png" width="260"> | <img src="assets/images/drive_analysis_summary.png" width="260"> |
+| Active Telemetry HUD | Session Summary Analysis | AI Coaching Review |
+| :---: | :---: | :---: |
+| <img src="assets/images/drive_active_hud.png" width="230"> | <img src="assets/images/drive_analysis_summary.png" width="230"> | <img src="assets/images/drive_analysis_coaching.png" width="230"> |
 
 ---
 

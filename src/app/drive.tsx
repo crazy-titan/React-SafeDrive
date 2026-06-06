@@ -9,7 +9,6 @@ import {
   Vibration,
 } from "react-native";
 import { useLocalSearchParams, router } from "expo-router";
-import { Audio } from "expo-av";
 import * as Location from "expo-location";
 import {
   Shield,
@@ -47,10 +46,7 @@ export default function DriveHUD() {
   const [linearAccelMag, setLinearAccelMag] = useState<number[]>([]);
   const [eventCount, setEventCount] = useState(0);
 
-  // Audio state
-  const soundRef = useRef<Audio.Sound | null>(null);
-
-  // References to log data during session
+  // references to log data during session
   const eventsLog = useRef<DrivingEvent[]>([]);
   const routeLog = useRef<DriveCoordinate[]>([]);
   const currentCoords = useRef<{ latitude: number; longitude: number }>({
@@ -120,35 +116,15 @@ export default function DriveHUD() {
     }, 2500);
   };
 
-  // Audio player setup
-  const playWarningChime = async () => {
+  // Warning alert feedback using haptics
+  const playWarningChime = () => {
     try {
-      // Vibrate phone briefly
-      Vibration.vibrate(200);
-
-      // Play chime sound safely
-      if (soundRef.current) {
-        await soundRef.current.replayAsync();
-      } else {
-        const { sound } = await Audio.Sound.createAsync(
-          { uri: "https://assets.mixkit.co/active_storage/sfx/2869/2869-200.wav" },
-          { shouldPlay: true, volume: 0.8 }
-        );
-        soundRef.current = sound;
-      }
+      // Trigger a distinct double vibration pulse: wait 0ms, vibrate 150ms, wait 100ms, vibrate 150ms
+      Vibration.vibrate([0, 150, 100, 150]);
     } catch (e) {
-      console.warn("Failed to play alert sound:", e);
+      console.warn("Failed to vibrate device:", e);
     }
   };
-
-  // Cleanup Sound on unmount
-  useEffect(() => {
-    return () => {
-      if (soundRef.current) {
-        soundRef.current.unloadAsync();
-      }
-    };
-  }, []);
 
   // 1. Hook up listeners (sensors or simulator)
   useEffect(() => {
